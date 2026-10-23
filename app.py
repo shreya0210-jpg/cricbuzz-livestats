@@ -8,7 +8,9 @@ from database.queries import (
 )
 from database.db import get_connection
 from database.init_db import init_db
+from database.seed_db import players
 init_db()
+seed_db()
 
 
 st.set_page_config(
@@ -153,22 +155,44 @@ st.bar_chart(
 )
 
 
+
 # SQL Analytics
 st.header("🧮 SQL Analytics")
 
 st.subheader("🏏 Top Run Scorers")
-st.dataframe(
-    get_top_run_scorers(),
-    use_container_width=True,
-    hide_index=True
-)
+
+try:
+    top_scorers_sql = get_top_run_scorers()
+
+    if not top_scorers_sql.empty:
+        st.dataframe(
+            top_scorers_sql,
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No run-scoring data found in the database.")
+
+except Exception as e:
+    st.error(f"Error loading top run scorers: {e}")
 
 st.subheader("🎯 Top Wicket Takers")
-st.dataframe(
-    get_top_wicket_takers(),
-    use_container_width=True,
-    hide_index=True
-)
+
+try:
+    top_wicket_takers_sql = get_top_wicket_takers()
+
+    if not top_wicket_takers_sql.empty:
+        st.dataframe(
+            top_wicket_takers_sql,
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No wicket-taking data found in the database.")
+
+except Exception as e:
+    st.error(f"Error loading top wicket takers: {e}")
+
 
 
 
