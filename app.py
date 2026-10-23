@@ -8,7 +8,7 @@ from database.queries import (
 )
 from database.db import get_connection
 from database.init_db import init_db
-from database.seed_db import players
+from database.seed_db import seed_db
 init_db()
 seed_db()
 
