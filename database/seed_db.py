@@ -27,6 +27,25 @@ def seed_db():
             """,
             (*player, player[0], player[1])
         )
+    matches = [
+        ("India", "Australia", "Mumbai", "2026-10-25", "Upcoming"),
+        ("England", "South Africa", "London", "2026-10-26", "Upcoming"),
+        ("Pakistan", "New Zealand", "Lahore", "2026-10-20", "Completed"),
+    ]
+
+    for match in matches:
+        cursor.execute(
+            """
+            INSERT INTO matches
+                (team1, team2, venue, match_date, match_status)
+            SELECT ?, ?, ?, ?, ?
+            WHERE NOT EXISTS (
+                SELECT 1 FROM matches
+                WHERE team1 = ? AND team2 = ? AND match_date = ?
+            );
+            """,
+            (*match, match[0], match[1], match[3])
+        )
 
     conn.commit()
     conn.close()
