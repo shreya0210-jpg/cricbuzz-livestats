@@ -7,6 +7,9 @@ from database.queries import (
     get_top_wicket_takers
 )
 from database.db import get_connection
+from database.init_db import init_db
+init_db()
+
 
 st.set_page_config(
     page_title="Cricbuzz LiveStats",
